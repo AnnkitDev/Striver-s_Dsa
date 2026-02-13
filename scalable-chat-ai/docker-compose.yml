@@ -1,0 +1,20 @@
+services:
+  redis:
+    image: redis:7.4-alpine
+    container_name: scalable-chat-redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+
+  app:
+    build: .
+    container_name: scalable-chat-ai
+    environment:
+      PORT: 8080
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      LLM_PROVIDER: mock
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis

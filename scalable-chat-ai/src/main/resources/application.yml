@@ -1,0 +1,32 @@
+server:
+  port: ${PORT:8080}
+
+spring:
+  application:
+    name: scalable-chat-ai
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 2s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+app:
+  chat:
+    history-limit: ${CHAT_HISTORY_LIMIT:30}
+    per-minute-limit: ${CHAT_PER_MINUTE_LIMIT:60}
+  llm:
+    provider: ${LLM_PROVIDER:mock}
+    base-url: ${LLM_BASE_URL:https://api.openai.com/v1}
+    model: ${LLM_MODEL:gpt-4o-mini}
+    api-key: ${LLM_API_KEY:}
+    timeout-seconds: ${LLM_TIMEOUT_SECONDS:20}
